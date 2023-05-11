@@ -16,7 +16,7 @@ services:
       - ./.env
   
   web:
-    image: artyomvah/infra_sp2:v1.1    
+    image: artyomvah/infra_sp2:v1.1
     restart: always
     volumes:
       # Контейнер web будет работать с данными, хранящиеся в томе static_value, 
@@ -52,6 +52,7 @@ services:
       # Данные, хранящиеся в томе media_value, будут доступны в контейнере nginx
       # через директорию /var/html/media/
       - media_value:/var/html/media/
+      - ../docs/:/app/docs/
 
     depends_on:
       # Контейнер nginx должен быть запущен после контейнера web
