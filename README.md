@@ -1,9 +1,6 @@
-# Проект «yamdb_final» 
-
-переделать все!
+## Проект «yamdb_final» CI/CD для API YAMDB
 
 ### Описание
-
    Проект YaMDb собирает отзывы пользователей на произведения.  
    Сами произведения в YaMDb не хранятся, здесь нельзя посмотреть фильм или послушать музыку.<br/>    
    Каждый ресурс описан в документации: указаны эндпоинты (адреса, по которым можно сделать запрос),    
@@ -14,16 +11,22 @@
 из пользовательских оценок формируется усреднённая оценка произведения — рейтинг (целое число).<br/>  
    Добавлять отзывы, комментарии и ставить оценки могут только аутентифицированные пользователи.<br/>    
 
+## Workflow
+* tests - Проверка кода на соответствие стандарту PEP8 (с помощью пакета flake8) и запуск pytest. Дальнейшие шаги выполнятся только если push был в ветку master или main.
+* build_and_push_to_docker_hub - Сборка и доставка докер-образов на Docker Hub
+* deploy - Автоматический деплой проекта на боевой сервер. Выполняется копирование файлов из репозитория на сервер:
+* send_message - Отправка уведомления в Telegram
+
 ### Технологии:
 ![Python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
 ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)
 ![DRF](https://img.shields.io/badge/django%20rest-ff1709?style=for-the-badge&logo=django&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)
 
-### Используемые пакеты:
-    * requests==2.26.0
+### Используемые пакеты:    
     * Django==3.2
     * djangorestframework==3.12.4
+    * requests==2.26.0
     * PyJWT==2.1.0
     * pytest==6.2.4
     * pytest-django==4.4.0
@@ -80,22 +83,65 @@
    python manage.py runserver
    ```
 
+В репозитории на Гитхабе добавьте данные в `Settings - Secrets - Actions secrets`:
+```
+DOCKER_USERNAME - имя пользователя в DockerHub
+DOCKER_PASSWORD - пароль пользователя в DockerHub
+HOST - ip-адрес сервера
+USER - пользователь
+SSH_KEY - приватный ssh-ключ (публичный должен быть на сервере)
+PASSPHRASE - кодовая фраза для ssh-ключа
+DB_ENGINE - django.db.backends.postgresql
+DB_HOST - db
+DB_PORT - 5432
+SECRET_KEY - секретный ключ приложения django (необходимо чтобы были экранированы или отсутствовали скобки)
+ALLOWED_HOSTS - список разрешённых адресов
+TELEGRAM_TO - id своего телеграм-аккаунта (можно узнать у @userinfobot, команда /start)
+TELEGRAM_TOKEN - токен бота (получить токен можно у @BotFather, /token, имя бота)
+DB_NAME - postgres (по умолчанию)
+POSTGRES_USER - postgres (по умолчанию)
+POSTGRES_PASSWORD - postgres (по умолчанию)
+```
+
+
 ### Дополнительно
 
-* Клонирование базы. В катологе static/data проекта находятся тестовые файлы базы данных. 
-  Для их импорта в базу данных выполняется команда:
-   ```
-   python manage.py import_db
-   ```
-* Каждый ресурс описан в документации проекта:
-   ```
-   http://127.0.0.1:8000/redoc/
-   ```
+## Как запустить проект на сервере:
 
-* ПО для тестирования API:
-   ```
-   https://www.postman.com/
-   ```
+Установите Docker и Docker-compose:
+```
+sudo apt install docker.io
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+```
+Проверьте корректность установки Docker-compose:
+```
+sudo  docker-compose --version
+```
+Создайте папку `nginx`:
+```
+mkdir nginx
+```
+### После успешного деплоя:
+Соберите статические файлы (статику):
+```
+docker-compose exec web python manage.py collectstatic --no-input
+```
+Примените миграции:
+```
+docker-compose exec web python manage.py migrate
+docker-compose exec web python manage.py makemigrations
+docker-compose exec web python manage.py migrate --noinput
+```
+Создайте суперпользователя:
+```
+docker-compose exec web python manage.py createsuperuser
+
+```
+или
+```
+docker-compose exec web python manage.py loaddata fixtures.json
+```
 
 ### Примеры запросов
 
