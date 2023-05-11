@@ -52,7 +52,6 @@ services:
       # Данные, хранящиеся в томе media_value, будут доступны в контейнере nginx
       # через директорию /var/html/media/
       - media_value:/var/html/media/
-      - ../docs/:/app/docs/
 
     depends_on:
       # Контейнер nginx должен быть запущен после контейнера web
@@ -60,5 +59,6 @@ services:
 
 volumes:
   # Новые тома 
+  db_data:
   static_value:
   media_value:
