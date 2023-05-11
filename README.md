@@ -1,6 +1,8 @@
 ## Проект «yamdb_final» CI/CD для API YAMDB
 
 ### Описание
+[![yamdb_final](https://github.com/artyom-vah/yamdb_final/actions/workflows/yamdb_workflow.yml/badge.svg)](https://github.com/artyom-vah/yamdb_final/actions)
+
    Проект YaMDb собирает отзывы пользователей на произведения.  
    Сами произведения в YaMDb не хранятся, здесь нельзя посмотреть фильм или послушать музыку.<br/>    
    Каждый ресурс описан в документации: указаны эндпоинты (адреса, по которым можно сделать запрос),    
