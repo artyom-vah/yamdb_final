@@ -1,18 +1,15 @@
 ## Проект «yamdb_final» CI/CD для API YAMDB
 
-
-### Описание
 [![yamdb_final](https://github.com/artyom-vah/yamdb_final/actions/workflows/yamdb_workflow.yml/badge.svg)](https://github.com/artyom-vah/yamdb_final/actions)
 
-   Проект YaMDb собирает отзывы пользователей на произведения.  
-   Сами произведения в YaMDb не хранятся, здесь нельзя посмотреть фильм или послушать музыку.<br/>    
-   Каждый ресурс описан в документации: указаны эндпоинты (адреса, по которым можно сделать запрос),    
-разрешённые типы запросов, права доступа и дополнительные параметры, когда это необходимо.<br/>    
-   Добавлять произведения, категории и жанры может только администратор.<br/>    
-   Благодарные или возмущённые пользователи оставляют к произведениям текстовые отзывы  
-и ставят произведению оценку в диапазоне от одного до десяти (целое число);  
-из пользовательских оценок формируется усреднённая оценка произведения — рейтинг (целое число).<br/>  
-   Добавлять отзывы, комментарии и ставить оценки могут только аутентифицированные пользователи.<br/>    
+### Описание
+Настройка для приложения «yamdb_final» Continuous Integration и Continuous Deployment, реализация: 
+1) автоматический запуск тестов,
+2) обновление образов на Docker Hub,
+3) автоматический деплой на боевой сервер при пуше в главную ветку main.
+
+
+
 
 ## Workflow
 * tests - Проверка кода на соответствие стандарту PEP8 (с помощью пакета flake8) и запуск pytest. Дальнейшие шаги выполнятся только если push был в ветку master или main.
@@ -21,10 +18,7 @@
 * send_message - Отправка уведомления в Telegram
 
 ### Технологии:
-![Python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
-![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)
-![DRF](https://img.shields.io/badge/django%20rest-ff1709?style=for-the-badge&logo=django&logoColor=white)
-![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)
+![Python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue) ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green) ![DRF](https://img.shields.io/badge/django%20rest-ff1709?style=for-the-badge&logo=django&logoColor=white) ![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)
 
 ### Используемые пакеты:    
     * Django==3.2
@@ -43,7 +37,7 @@
 1. Клонировать репозиторий:
 
    ```python
-   git clone ...
+   git clone https://github.com/artyom-vah/yamdb_final.git
    ```
 
 2. Перейти в папку с проектом:
@@ -86,7 +80,7 @@
    python manage.py runserver
    ```
 
-В репозитории на Гитхабе добавьте данные в `Settings - Secrets - Actions secrets`:
+### В репозитории на Гитхабе добавьте данные в `Settings - Secrets - Actions secrets`:
 ```
 DOCKER_USERNAME - имя пользователя в DockerHub
 DOCKER_PASSWORD - пароль пользователя в DockerHub
@@ -106,8 +100,6 @@ POSTGRES_USER - postgres (по умолчанию)
 POSTGRES_PASSWORD - postgres (по умолчанию)
 ```
 
-
-### Дополнительно
 
 ## Как запустить проект на сервере:
 
@@ -139,11 +131,6 @@ docker-compose exec web python manage.py migrate --noinput
 Создайте суперпользователя:
 ```
 docker-compose exec web python manage.py createsuperuser
-
-```
-или
-```
-docker-compose exec web python manage.py loaddata fixtures.json
 ```
 
 ### Примеры запросов
@@ -199,7 +186,6 @@ docker-compose exec web python manage.py loaddata fixtures.json
     }
     ```
 
-### Авторы проекта
+### Автор проекта
 * Артем Вахрушев  
-* Роман Дячук  
-* Руслан Шамсияров  
+
