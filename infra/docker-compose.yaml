@@ -14,7 +14,7 @@ services:
     env_file:
       - ./.env
   
-  web:
+  web:  
     image: artyomvah/infra_sp2:v1.1
     restart: always
     volumes:
