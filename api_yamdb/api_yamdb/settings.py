@@ -1,4 +1,3 @@
-# from os import getenv
 import os
 from datetime import timedelta
 from pathlib import Path
@@ -7,11 +6,11 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 # load_dotenv()
-# SECRET_KEY = getenv('TOKEN')
+# SECRET_KEY = os.getenv('TOKEN')
 SECRET_KEY = 'p&l%385148kslhtyn^##a1)ilz@4zqj=rq&agdol^##zgl9(vs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -95,13 +94,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = os.getenv('TIME_ZONE')
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = os.getenv('USE_TZ')
 
 # Static files (CSS, JavaScript, Images)
 
