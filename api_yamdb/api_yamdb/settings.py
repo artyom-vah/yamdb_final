@@ -59,6 +59,7 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'api_yamdb.wsgi.application'
 
 DATABASES = {
